@@ -1,83 +1,64 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import Header from "./components/Header";
 import ProductCard from "./components/ProductCard";
 import "./App.css";
 import "./index.css";
 
+// 1. Define the type for our property data to match the backend schema
+interface Property {
+  _id: string;
+  title: string;
+  price: number;
+  images: string[];
+  location: {
+    city: string;
+    country: string;
+  };
+  rating: number;
+  category: string;
+}
+
 function App() {
-  const products = [
-    {
-      imageSrc:
-        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80",
-      isGuestFavorite: true,
-      location: "Kuala Lumpur",
-      price: 57,
-      nights: 2,
-      rating: 4.87,
-      type: "Apartment",
-    },
-    {
-      imageSrc:
-        "https://images.unsplash.com/photo-1600607687939-ce8a6c25118f?auto=format&fit=crop&w=800&q=80",
-      isGuestFavorite: false,
-      location: "Bukit Bintang",
-      price: 65,
-      nights: 2,
-      rating: 4.83,
-      type: "Condo",
-    },
-    {
-      imageSrc:
-        "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=800&q=80",
-      isGuestFavorite: true,
-      location: "Bukit Bintang",
-      price: 79,
-      nights: 2,
-      rating: 4.87,
-      type: "Apartment",
-    },
-    {
-      imageSrc:
-        "https://images.unsplash.com/photo-1586105251261-72a756497a11?auto=format&fit=crop&w=800&q=80",
-      isGuestFavorite: true,
-      location: "Kuala Lumpur",
-      price: 92,
-      nights: 2,
-      rating: 4.88,
-      type: "Apartment",
-    },
-    {
-      imageSrc:
-        "https://images.unsplash.com/photo-1597047084897-51e81819a499?auto=format&fit=crop&w=800&q=80",
-      isGuestFavorite: false,
-      location: "Bukit Bintang",
-      price: 115,
-      nights: 2,
-      rating: 4.97,
-      type: "Apartment",
-    },
-    {
-      imageSrc:
-        "https://images.unsplash.com/photo-1501183638710-841dd1904471?auto=format&fit=crop&w=800&q=80",
-      isGuestFavorite: true,
-      location: "Bukit Bintang",
-      price: 96,
-      nights: 2,
-      rating: 4.95,
-      type: "Apartment",
-    },
-  ];
+  // 2. Set up state to hold the properties, initializing with an empty array
+  const [properties, setProperties] = useState<Property[]>([]);
+
+  // 3. Fetch data from the API when the component mounts
+  useEffect(() => {
+    const fetchProperties = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8080/api/properties"
+        );
+        setProperties(response.data);
+      } catch (error) {
+        console.error("Error fetching properties:", error);
+      }
+    };
+
+    fetchProperties();
+  }, []); // The empty array [] ensures this effect runs only once
 
   return (
     <div className="font-sans">
-      {/* 2. Place the Header at the top of your app */}
       <Header />
 
       <div className="container mx-auto p-8">
         <h1 className="text-3xl font-bold mb-8">Featured Stays</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
-          {products.map((product, index) => (
-            <ProductCard key={index} {...product} />
+          {/* 4. Map over the 'properties' state variable instead of the dummy data */}
+          {properties.map((property) => (
+            <ProductCard
+              key={property._id}
+              imageSrc={property.images[0]} // Use the first image for the card
+              location={property.location.city}
+              price={property.price}
+              rating={property.rating}
+              type={property.category}
+              // FIX: Add missing props required by ProductCard
+              isGuestFavorite={property.rating > 4.8} // Example logic: high rating = guest favorite
+              nights={5} // Provide a default value for nights
+            />
           ))}
         </div>
       </div>
