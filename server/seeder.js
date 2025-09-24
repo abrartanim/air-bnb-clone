@@ -1,37 +1,86 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import fs from "fs";
+import path from "path";
 import connectDB from "./lib/db.js";
 import Property from "./models/Property.js";
-import { properties } from "./data/seedData.js";
 
 dotenv.config();
 
-connectDB();
+const __dirname = path.resolve();
 
 const importData = async () => {
   try {
-    // Clear existing data
+    await connectDB();
     await Property.deleteMany();
 
-    // Insert new data
-    await Property.insertMany(properties);
+    const dataPath = path.join(__dirname, "data", "listings.json");
+    const listings = JSON.parse(fs.readFileSync(dataPath, "utf-8"));
 
-    console.log("Data Imported Successfully!");
+    const propertiesToInsert = listings.map((item) => {
+      // Clean up the price field
+      const price = item.price
+        ? parseFloat(item.price.replace(/[$,]/g, ""))
+        : 0;
+
+      // Parse the amenities string into an array
+      let amenities = [];
+      try {
+        if (item.amenities) {
+          amenities = JSON.parse(item.amenities.replace(/\\u2019s/g, "'"));
+        }
+      } catch (e) {
+        console.warn(`Could not parse amenities for listing ${item.id}`);
+      }
+
+      return {
+        name: item.name,
+        description: item.description,
+        listing_url: item.listing_url,
+        picture_url: item.picture_url,
+        property_type: item.property_type,
+        room_type: item.room_type,
+        accommodates: item.accommodates,
+        bathrooms_text: item.bathrooms_text,
+        bedrooms: item.bedrooms,
+        beds: item.beds,
+        amenities: amenities,
+        price: price,
+        review_scores_rating: item.review_scores_rating,
+        reviews_per_month: item.reviews_per_month,
+        host: {
+          host_id: item.host_id,
+          host_name: item.host_name,
+          host_since: item.host_since,
+          host_is_superhost: item.host_is_superhost === "t",
+          host_picture_url: item.host_picture_url,
+        },
+        address: {
+          neighbourhood: item.neighbourhood_cleansed,
+          latitude: parseFloat(item.latitude),
+          longitude: parseFloat(item.longitude),
+        },
+      };
+    });
+
+    await Property.insertMany(propertiesToInsert);
+
+    console.log("✅ Data Imported Successfully!");
     process.exit();
   } catch (error) {
-    console.error(`Error importing data: ${error}`);
+    console.error(`❌ Error importing data: ${error}`);
     process.exit(1);
   }
 };
 
 const destroyData = async () => {
   try {
+    await connectDB();
     await Property.deleteMany();
-
-    console.log("Data Destroyed Successfully!");
+    console.log("🗑️ Data Destroyed Successfully!");
     process.exit();
   } catch (error) {
-    console.error(`Error destroying data: ${error}`);
+    console.error(`❌ Error destroying data: ${error}`);
     process.exit(1);
   }
 };
