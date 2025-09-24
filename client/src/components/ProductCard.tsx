@@ -28,6 +28,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           src={imageSrc}
           alt={`${type} in ${location}`}
           className="w-full h-40 object-cover"
+          loading="lazy"
         />
         {isGuestFavorite && (
           <span className="absolute top-3 left-3 bg-white text-gray-800 text-xs font-semibold px-3 py-1 rounded-full shadow-md">

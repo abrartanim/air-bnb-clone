@@ -15,9 +15,18 @@ const importData = async () => {
     await Property.deleteMany();
 
     const dataPath = path.join(__dirname, "data", "listings.json");
-    const listings = JSON.parse(fs.readFileSync(dataPath, "utf-8"));
+    let listings = JSON.parse(fs.readFileSync(dataPath, "utf-8"));
 
-    const propertiesToInsert = listings.map((item) => {
+    // --- Add this block to shuffle the array ---
+    for (let i = listings.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [listings[i], listings[j]] = [listings[j], listings[i]];
+    }
+
+    // --- Now, take the first 100 from the shuffled array ---
+    const limitedListings = listings.slice(0, 30);
+
+    const propertiesToInsert = limitedListings.map((item) => {
       // Clean up the price field
       const price = item.price
         ? parseFloat(item.price.replace(/[$,]/g, ""))
@@ -65,7 +74,7 @@ const importData = async () => {
 
     await Property.insertMany(propertiesToInsert);
 
-    console.log("✅ Data Imported Successfully!");
+    console.log("✅ Data Imported Successfully (100 random listings)!");
     process.exit();
   } catch (error) {
     console.error(`❌ Error importing data: ${error}`);
