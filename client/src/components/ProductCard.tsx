@@ -1,6 +1,9 @@
 // src/components/ProductCard.tsx
 import React from "react";
 import { FaStar, FaRegHeart } from "react-icons/fa";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 interface ProductCardProps {
   imageSrc: string;
@@ -24,11 +27,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
   return (
     <div className="relative w-full rounded-xl overflow-hidden shadow-lg bg-white cursor-pointer">
       <div className="relative h-48">
-        <img
+        <LazyLoadImage
           src={imageSrc}
           alt={`${type} in ${location}`}
-          className="w-full h-40 object-cover"
-          loading="lazy"
+          effect="blur" // adds a blur placeholder while loading
+          width="100%"
+          height="100%"
+          className="object-cover w-full h-48"
+          afterLoad={() => ScrollTrigger.refresh()} // refresh GSAP after image loads
         />
         {isGuestFavorite && (
           <span className="absolute top-3 left-3 bg-white text-gray-800 text-xs font-semibold px-3 py-1 rounded-full shadow-md">

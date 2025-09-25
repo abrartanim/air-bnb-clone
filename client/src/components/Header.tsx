@@ -18,6 +18,7 @@ const Header: React.FC = () => {
       let isAnimating = false;
 
       ScrollTrigger.create({
+        id: "mainHeaderAnimation",
         trigger: document.body,
         start: 80, // Fire events at this scroll position
         end: "bottom top",

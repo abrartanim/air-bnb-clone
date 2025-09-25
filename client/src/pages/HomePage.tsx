@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import ProductCard from "../components/ProductCard"; // Note the path change to ../
+import ProductCard from "../components/ProductCard";
+import { gsap } from "gsap"; // 1. Import GSAP
+import { ScrollTrigger } from "gsap/ScrollTrigger"; // 2. Import ScrollTrigger
+
+gsap.registerPlugin(ScrollTrigger);
 
 // Interface for a single property
 interface Property {
@@ -26,6 +30,10 @@ function HomePage() {
           "http://localhost:8080/api/properties"
         );
         setProperties(response.data);
+
+        requestAnimationFrame(() => {
+          ScrollTrigger.refresh();
+        });
       } catch (error) {
         console.error("Error fetching properties:", error);
       }
@@ -35,7 +43,7 @@ function HomePage() {
   }, []);
 
   return (
-    <main className="container mx-auto p-8">
+    <main className="container mx-auto p-8 mt-10">
       <h1 className="text-3xl font-bold mb-8">Featured Stays</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
         {properties.map((property) => (
