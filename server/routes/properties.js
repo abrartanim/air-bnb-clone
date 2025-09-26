@@ -24,6 +24,8 @@ router.get("/", async (req, res) => {
   }
 });
 
+// DO LATER
+// use for optimization later
 router.get("/images/:filename", async (req, res) => {
   const { filename } = req.params;
   const { w, h, q } = req.query; // width, height, quality
