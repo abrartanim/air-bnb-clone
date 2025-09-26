@@ -9,8 +9,8 @@ function App() {
   return (
     <Router>
       <div className="font-sans">
-        {/* <Header />
-        <Routes>
+        <Header />
+        {/* <Routes>
           <Route path="/" element={<HomePage />} />
         </Routes> */}
         <PropertyDetailsPage />
