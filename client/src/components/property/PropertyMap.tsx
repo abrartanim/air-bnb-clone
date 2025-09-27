@@ -39,12 +39,12 @@ const PropertyMap: React.FC<Props> = ({ property }) => {
       <h2 className="text-2xl font-semibold mb-6">Where you'll be</h2>
 
       {/* Map Display */}
-      <div className="h-[400px] w-2/3 mx-auto rounded-xl overflow-hidden mb-6 ">
+      <div className="h-[480px] w-2/3 mx-auto rounded-xl overflow-hidden mb-6 ">
         <MapContainer
           center={position}
           zoom={14}
           scrollWheelZoom={false}
-          className="w-2/3 h-full"
+          className="w-full h-full"
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
