@@ -9,6 +9,7 @@ import PropertyInfo from "../components/property/PropertyInfo";
 import BookingCard from "../components/property/BookingCard";
 import DatePicker from "../components/DatePicker";
 import PropertyReviews from "../components/property/PropertyReviews";
+import PropertyMap from "../components/property/PropertyMap";
 // The dummy data remains here for now.
 // In a real app, you would fetch this from your API.
 const dummyProperty = {
@@ -119,6 +120,7 @@ const PropertyDetailsPage = () => {
 
       {/* Reviews, Map and Host Info sections would go here */}
       <PropertyReviews property={dummyProperty} />
+      <PropertyMap property={dummyProperty} />
     </main>
   );
 };
