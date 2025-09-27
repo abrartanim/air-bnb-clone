@@ -1,0 +1,55 @@
+/* src/styles/custom-calendar.css */
+
+/* Remove the default border around the calendar */
+.custom-date-range .rdrCalendarWrapper {
+  border: none;
+  font-family: inherit; /* Use the font from your Tailwind config */
+}
+
+/* Style the range between the start and end dates */
+.custom-date-range .rdrInRange,
+.custom-date-range .rdrStartEdge,
+.custom-date-range .rdrEndEdge {
+  background: #f3f4f6; /* A light gray like Tailwind's gray-100 */
+}
+
+/* Style the start and end date circles */
+.custom-date-range .rdrDayNumber span {
+  font-weight: 500;
+}
+
+.custom-date-range .rdrStartEdge ~ .rdrDayNumber span,
+.custom-date-range .rdrEndEdge ~ .rdrDayNumber span {
+  color: #ffffff !important; /* White text for start/end dates */
+}
+
+.custom-date-range .rdrStartEdge,
+.custom-date-range .rdrEndEdge {
+  border-radius: 50%; /* Make them perfect circles */
+  background: #111827; /* Black like Tailwind's gray-900 */
+}
+
+/* Ensure the day number is centered inside the circle/range */
+.custom-date-range .rdrDay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Style for month and year navigation arrows */
+.custom-date-range .rdrNextPrevButton {
+  background: transparent;
+  border: 1px solid #d1d5db; /* gray-300 */
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+}
+
+.custom-date-range .rdrNextPrevButton:hover {
+  background: #f3f4f6; /* gray-100 */
+}
+
+/* Hide the predefined ranges section if it appears */
+.custom-date-range .rdrDefinedRangesWrapper {
+  display: none;
+}

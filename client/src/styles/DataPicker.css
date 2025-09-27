@@ -1,0 +1,13 @@
+/*
+ * Override for react-date-range
+ * Makes available, unselected dates look selectable instead of greyed-out.
+ */
+
+/* Targets day buttons that are NOT disabled and NOT in a passive month (e.g., September dates showing in the August view) */
+.rdrDay:not(.rdrDayDisabled):not(.rdrDayPassive) .rdrDayNumber span {
+  color: #111827; /* Dark text color */
+}
+
+.rdrDay:not(.rdrDayDisabled):not(.rdrDayPassive) button:hover {
+  background-color: #f3f4f6; /* A light grey for hover, like Airbnb */
+}
