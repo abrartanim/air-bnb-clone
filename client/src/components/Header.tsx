@@ -1,80 +1,76 @@
 import React, { useLayoutEffect, useRef } from "react";
-import { FaGlobe, FaBars } from "react-icons/fa";
+import { FaGlobe, FaBars, FaSearch } from "react-icons/fa";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ScrollToPlugin } from "gsap/ScrollToPlugin"; // <-- 1. Import the plugin
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import SearchInput from "./Header/SearchInput";
 import logo from "../assets/logo.png";
+import { useMediaQuery } from "../hooks/useMediaQuery";
 
-// 2. Register both plugins
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
-const Header: React.FC = () => {
+const DESKTOP_BREAKPOINT = "(min-width: 768px)";
+
+interface HeaderProps {
+  isPropertyPage?: boolean;
+}
+
+const Header: React.FC<HeaderProps> = ({ isPropertyPage = false }) => {
   const headerRef = useRef<HTMLElement>(null);
+  const isDesktop = useMediaQuery(DESKTOP_BREAKPOINT);
 
   useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      // A simple flag to prevent the lock animation from re-triggering itself
-      let isAnimating = false;
+    if (isDesktop && !isPropertyPage) {
+      const ctx = gsap.context(() => {
+        let isAnimating = false;
+        ScrollTrigger.create({
+          id: "mainHeaderAnimation",
+          trigger: document.body,
+          start: 80,
+          end: "bottom top",
+          onEnter: () => {
+            if (isAnimating) return;
+            isAnimating = true;
+            headerRef.current?.classList.add("is-scrolled");
+            gsap.to(window, {
+              scrollTo: { y: 120, autoKill: false },
+              duration: 0.4,
+              ease: "power2.out",
+              onComplete: () => {
+                isAnimating = false;
+              },
+            });
+          },
+          onLeaveBack: () => {
+            if (isAnimating) return;
+            isAnimating = true;
+            headerRef.current?.classList.remove("is-scrolled");
+            gsap.to(window, {
+              scrollTo: { y: 40, autoKill: false },
+              duration: 0.4,
+              ease: "power2.out",
+              onComplete: () => {
+                isAnimating = false;
+              },
+            });
+          },
+        });
+      }, headerRef);
 
-      ScrollTrigger.create({
-        id: "mainHeaderAnimation",
-        trigger: document.body,
-        start: 80, // Fire events at this scroll position
-        end: "bottom top",
+      return () => ctx.revert();
+    }
+  }, [isDesktop, isPropertyPage]);
 
-        // When scrolling DOWN past 80px
-        onEnter: () => {
-          if (isAnimating) return;
-          isAnimating = true;
-
-          // First, update the class
-          headerRef.current?.classList.add("is-scrolled");
-
-          // Then, animate the scrollbar to a "locked" position
-          gsap.to(window, {
-            scrollTo: { y: 120, autoKill: false }, // Nudge scroll down to 120px
-            duration: 0.4,
-            ease: "power2.out",
-            onComplete: () => {
-              isAnimating = false;
-            },
-          });
-        },
-
-        // When scrolling UP past 80px
-        onLeaveBack: () => {
-          if (isAnimating) return;
-          isAnimating = true;
-
-          // Update the class
-          headerRef.current?.classList.remove("is-scrolled");
-
-          // Animate the scrollbar back up to a "locked" position
-          gsap.to(window, {
-            scrollTo: { y: 40, autoKill: false }, // Nudge scroll up to 40px
-            duration: 0.4,
-            ease: "power2.out",
-            onComplete: () => {
-              isAnimating = false;
-            },
-          });
-        },
-      });
-    }, headerRef);
-
-    return () => ctx.revert();
-  }, []);
-
-  // Your JSX remains exactly the same as before
   return (
     <header
       ref={headerRef}
-      className="sticky top-0 z-50 w-full bg-white shadow-sm group"
+      // THE ONLY CHANGE IS HERE: We make the 'sticky top-0' classes conditional
+      className={`z-50 w-full bg-white shadow-sm group ${
+        isPropertyPage ? "" : "sticky top-0"
+      }`}
     >
-      <div className="container mx-auto px-8 transition-all duration-300 ease-in-out py-4 group-[.is-scrolled]:py-2">
-        {/* Top row */}
-        <div className="flex items-center justify-between">
+      <div className="container mx-auto px-4 md:px-8 transition-all duration-300 ease-in-out py-4 group-[.is-scrolled]:py-2">
+        <div className="hidden md:flex items-center justify-between">
           <div className="flex-1 flex justify-start">
             <img
               src={logo}
@@ -82,18 +78,28 @@ const Header: React.FC = () => {
               alt="Airbnb logo"
             />
           </div>
+
           <div className="flex-1 flex justify-center relative h-12 items-center">
-            <nav className="absolute transition-opacity duration-300 group-[.is-scrolled]:opacity-0">
-              <div className="hidden md:flex items-center space-x-8 text-sm">
-                <button className="font-semibold text-black">Stays</button>
-                <button className="text-gray-500">Experiences</button>
-                <button className="text-gray-500">Online Experiences</button>
-              </div>
-            </nav>
-            <div className="absolute opacity-0 transition-opacity duration-300 group-[.is-scrolled]:opacity-100">
+            {isPropertyPage ? (
               <SearchInput isScrolled={true} />
-            </div>
+            ) : (
+              <>
+                <nav className="absolute transition-opacity duration-300 group-[.is-scrolled]:opacity-0">
+                  <div className="flex items-center space-x-8 text-sm">
+                    <button className="font-semibold text-black">Stays</button>
+                    <button className="text-gray-500">Experiences</button>
+                    <button className="text-gray-500">
+                      Online Experiences
+                    </button>
+                  </div>
+                </nav>
+                <div className="absolute opacity-0 transition-opacity duration-300 group-[.is-scrolled]:opacity-100">
+                  <SearchInput isScrolled={true} />
+                </div>
+              </>
+            )}
           </div>
+
           <div className="flex-1 flex justify-end items-center space-x-4 text-gray-700">
             <button className="hidden md:inline-flex text-sm font-semibold hover:bg-gray-100 px-4 py-3 rounded-full">
               Airbnb your home
@@ -106,10 +112,30 @@ const Header: React.FC = () => {
             </div>
           </div>
         </div>
-        {/* Expanded Search Bar */}
-        <div className="transition-all duration-300 ease-in-out overflow-hidden flex justify-center max-h-48 opacity-100 pt-4 group-[.is-scrolled]:max-h-0 group-[.is-scrolled]:opacity-0 group-[.is-scrolled]:pt-0">
-          <SearchInput isScrolled={false} />
-        </div>
+
+        {!isPropertyPage && (
+          <div className="hidden md:flex transition-all duration-300 ease-in-out overflow-hidden justify-center max-h-48 opacity-100 pt-4 group-[.is-scrolled]:max-h-0 group-[.is-scrolled]:opacity-0 group-[.is-scrolled]:pt-0">
+            <SearchInput isScrolled={false} />
+          </div>
+        )}
+
+        {!isPropertyPage && (
+          <div className="md:hidden flex flex-col gap-4">
+            <button className="w-full flex items-center space-x-3 border rounded-full shadow-md hover:shadow-lg transition-shadow py-2 px-4 text-left">
+              <FaSearch className="h-5 w-5 text-gray-800" />
+              <span className="text-sm font-medium text-gray-800">
+                Start your search
+              </span>
+            </button>
+            <nav className="flex justify-center items-center space-x-8 text-sm font-semibold text-gray-600">
+              <button className="text-black font-bold border-b-2 border-black pb-2">
+                Stays
+              </button>
+              <button>Experiences</button>
+              <button>Services</button>
+            </nav>
+          </div>
+        )}
       </div>
     </header>
   );
