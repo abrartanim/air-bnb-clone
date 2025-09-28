@@ -1,6 +1,9 @@
-import React, { useState, useEffect, useRef } from "react"; // Import useRef
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+// @ts-ignore
+import { Range } from "react-date-range";
+import { addDays, differenceInCalendarDays } from "date-fns";
 
 // Import your components
 import PropertyHeader from "../components/property/PropertyHeader";
@@ -11,7 +14,7 @@ import DatePicker from "../components/DatePicker";
 import PropertyReviews from "../components/property/PropertyReviews";
 import PropertyMap from "../components/property/PropertyMap";
 import HostInfo from "../components/property/HostInfo";
-import StickyNav from "../components/property/StickyNav"; // 1. Import the new component
+import StickyNav from "../components/property/StickyNav";
 
 import type { Property } from "../components/property/types";
 import { propertyTypeMap } from "../components/property/types";
@@ -37,13 +40,19 @@ const PropertyDetailsPage = () => {
   const [property, setProperty] = useState<Property | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  // 2. Add state for the sticky nav and a ref for the trigger element
   const [isStickyNavVisible, setStickyNavVisible] = useState(false);
   const infoSectionRef = useRef<HTMLDivElement>(null);
 
+  const [dateRange, setDateRange] = useState<Range[]>([
+    {
+      startDate: undefined, // Start with no dates selected
+      endDate: undefined,
+      key: "selection",
+    },
+  ]);
+
   useEffect(() => {
-    // Data fetching logic remains the same...
+    // ... (Data fetching logic remains the same)
     const fetchPropertyDetails = async () => {
       setLoading(true);
       setError(null);
@@ -62,19 +71,29 @@ const PropertyDetailsPage = () => {
     if (id) fetchPropertyDetails();
   }, [id]);
 
-  // 3. Add an effect to listen to scroll events
   useEffect(() => {
+    // ... (Scroll handling logic remains the same)
     const handleScroll = () => {
       if (infoSectionRef.current) {
-        // Get the top position of the PropertyInfo section
         const topPosition = infoSectionRef.current.getBoundingClientRect().top;
-        // The nav should appear when the section top is at or above the viewport top
         setStickyNavVisible(topPosition <= 0);
       }
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []); // Empty dependency array means this runs once on mount
+  }, []);
+
+  // Define the function to clear dates
+  const handleClearDates = () => {
+    const today = new Date();
+    setDateRange([
+      {
+        startDate: today,
+        endDate: today,
+        key: "selection",
+      },
+    ]);
+  };
 
   if (loading) return <div className="text-center p-10">Loading...</div>;
   if (error)
@@ -82,29 +101,42 @@ const PropertyDetailsPage = () => {
   if (!property)
     return <div className="text-center p-10">Property not found.</div>;
 
+  const startDate = dateRange[0]?.startDate ?? null;
+  const endDate = dateRange[0]?.endDate ?? null;
+  const nights =
+    startDate && endDate ? differenceInCalendarDays(endDate, startDate) : 0;
+
   return (
     <>
-      {/* 4. Render the StickyNav outside the main container */}
       <StickyNav isVisible={isStickyNavVisible} />
 
       <main className="container mx-auto px-8 py-12">
         <PropertyHeader property={property} />
 
-        {/* 5. Add IDs to the sections you want to link to */}
         <div id="photos">
           <ImageGallery property={property} />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mt-8">
-          {/* 6. Attach the ref to the trigger section */}
           <div className="lg:col-span-2" ref={infoSectionRef} id="amenities">
             <PropertyInfo property={property} />
-            <div className="mt-1 pt-4 pl-3">
-              <DatePicker />
+            <div className="mt-8 pt-8 border-t">
+              {/* Pass the state, onChange handler, and the new onClear handler */}
+              <DatePicker
+                ranges={dateRange}
+                onChange={(item) => setDateRange([item.selection])}
+                onClear={handleClearDates}
+                nights={nights}
+              />
             </div>
           </div>
           <div>
-            <BookingCard property={property} />
+            <BookingCard
+              property={property}
+              startDate={startDate}
+              endDate={endDate}
+              nights={nights}
+            />
           </div>
         </div>
 

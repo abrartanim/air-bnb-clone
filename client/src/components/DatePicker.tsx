@@ -1,70 +1,61 @@
-import React, { useState } from "react";
+import React from "react";
 // @ts-ignore
 import { DateRange, Range } from "react-date-range";
-import { addDays, differenceInCalendarDays, format } from "date-fns";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
+import { format } from "date-fns";
 
-const DatePicker: React.FC = () => {
-  const today = new Date();
+interface DatePickerProps {
+  ranges: Range[];
+  onChange: (item: any) => void;
+  onClear: () => void;
+  nights: number;
+}
 
-  const [state, setState] = useState<Range[]>([
-    {
-      startDate: today,
-      endDate: addDays(today, 2),
-      key: "selection",
-    },
-  ]);
-
-  const startDate = state[0]?.startDate || null;
-  const endDate = state[0]?.endDate || null;
-
-  // nights calculation only if both dates exist
-  const nights =
-    startDate && endDate ? differenceInCalendarDays(endDate, startDate) : 0;
+const DatePicker: React.FC<DatePickerProps> = ({
+  ranges,
+  onChange,
+  onClear,
+  nights,
+}) => {
+  const startDate = ranges[0]?.startDate;
+  const endDate = ranges[0]?.endDate;
 
   return (
-    <div className="flex flex-col items-center p-6 bg-white shadow-xl rounded-2xl w-fit">
-      <h2 className="text-lg font-semibold text-gray-900 mb-1">
+    <div className="flex flex-col">
+      <h2 className="text-2xl font-semibold mb-2">
         {nights > 0
-          ? `${nights} ${nights === 1 ? "night" : "nights"} in Kuala Lumpur`
-          : "Select your dates"}
+          ? `${nights} ${nights === 1 ? "night" : "nights"}`
+          : "Select check-in date"}
       </h2>
-
-      <p className="text-sm text-gray-500 mb-4">
-        {startDate == endDate
+      <p className="text-gray-500 mb-4">
+        {startDate && endDate && nights > 0
           ? `${format(startDate, "MMM d, yyyy")} – ${format(
               endDate,
               "MMM d, yyyy"
             )}`
-          : "No dates selected"}
+          : "Add your travel dates for exact pricing"}
       </p>
-
       <DateRange
         editableDateInputs={true}
-        onChange={(item: { selection: Range }) => setState([item.selection])}
+        onChange={onChange}
         moveRangeOnFirstSelection={false}
-        ranges={state.length ? state : []}
-        minDate={today}
-        rangeColors={["#000000"]}
+        ranges={ranges}
+        minDate={new Date()}
+        rangeColors={["#212121"]}
         months={2}
         direction="horizontal"
+        className="w-full"
       />
-
-      <button
-        onClick={() =>
-          setState([
-            {
-              startDate: today,
-              endDate: today,
-              key: "selection",
-            },
-          ])
-        }
-        className="text-sm text-gray-600 mt-3 hover:underline"
-      >
-        Clear dates
-      </button>
+      {/* Add the clear button back, linked to the onClear prop */}
+      <div className="flex justify-end mt-4">
+        <button
+          onClick={onClear}
+          className="px-4 py-2 text-sm font-semibold text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200"
+        >
+          Clear dates
+        </button>
+      </div>
     </div>
   );
 };
