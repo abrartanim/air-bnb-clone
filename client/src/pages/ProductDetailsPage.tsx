@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 // @ts-ignore
 import { Range } from "react-date-range";
-import { addDays, differenceInCalendarDays } from "date-fns";
+import { addDays, differenceInCalendarDays, format } from "date-fns";
 
 // Import your components
 import PropertyHeader from "../components/property/PropertyHeader";
@@ -110,7 +110,7 @@ const PropertyDetailsPage = () => {
     <>
       <StickyNav isVisible={isStickyNavVisible} />
 
-      <main className="container mx-auto px-8 py-12">
+      <main className="container mx-auto px-4 sm:px-8 py-12">
         <PropertyHeader property={property} />
 
         <div id="photos">
@@ -121,7 +121,6 @@ const PropertyDetailsPage = () => {
           <div className="lg:col-span-2" ref={infoSectionRef} id="amenities">
             <PropertyInfo property={property} />
             <div className="mt-8 pt-8 border-t">
-              {/* Pass the state, onChange handler, and the new onClear handler */}
               <DatePicker
                 ranges={dateRange}
                 onChange={(item) => setDateRange([item.selection])}
@@ -130,7 +129,7 @@ const PropertyDetailsPage = () => {
               />
             </div>
           </div>
-          <div>
+          <div className="hidden lg:block">
             <BookingCard
               property={property}
               startDate={startDate}
@@ -150,6 +149,23 @@ const PropertyDetailsPage = () => {
 
         <HostInfo property={property} />
       </main>
+
+      {/* Sticky footer for booking on mobile */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t p-4 flex justify-between items-center z-30">
+        <div>
+          <p className="font-bold">
+            ${property.price} <span className="font-normal">night</span>
+          </p>
+          <p className="text-sm text-gray-500 underline">
+            {startDate && endDate
+              ? `${format(startDate, "MMM d")} - ${format(endDate, "d")}`
+              : "Select dates"}
+          </p>
+        </div>
+        <button className="bg-pink-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-pink-700 transition">
+          Reserve
+        </button>
+      </div>
     </>
   );
 };

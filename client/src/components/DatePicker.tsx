@@ -4,6 +4,7 @@ import { DateRange, Range } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { format } from "date-fns";
+import useMediaQuery from "../hooks/useMediaQuery";
 
 interface DatePickerProps {
   ranges: Range[];
@@ -20,6 +21,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
 }) => {
   const startDate = ranges[0]?.startDate;
   const endDate = ranges[0]?.endDate;
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
   return (
     <div className="flex flex-col">
@@ -43,8 +45,8 @@ const DatePicker: React.FC<DatePickerProps> = ({
         ranges={ranges}
         minDate={new Date()}
         rangeColors={["#212121"]}
-        months={2}
-        direction="horizontal"
+        months={isMobile ? 1 : 2}
+        direction={isMobile ? "vertical" : "horizontal"}
         className="w-full"
       />
       {/* Add the clear button back, linked to the onClear prop */}

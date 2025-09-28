@@ -180,7 +180,7 @@ const PropertyReviews: React.FC<Props> = ({ property }) => {
         </h2>
 
         {/* --- Ratings Grid --- */}
-        <div className="grid grid-cols-7 items-center divide-x divide-gray-200">
+        <div className="hidden md:grid grid-cols-7 items-center divide-x divide-gray-200">
           <div className="col-span-1 pr-6">
             <h3 className="font-semibold text-gray-800 mb-3 text-sm">
               Overall rating
@@ -215,8 +215,8 @@ const PropertyReviews: React.FC<Props> = ({ property }) => {
         </div>
 
         {/* Individual Reviews Section */}
-        <div className="mt-12 pt-8 border-t">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-4">
+        <div className="mt-12 md:mt-8 pt-8 border-t">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-8">
             {reviews.slice(0, 6).map(
               (
                 review,

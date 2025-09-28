@@ -222,7 +222,7 @@ const PropertyInfo: React.FC<Props> = ({ property }) => {
           <h2 className="text-2xl font-semibold mb-4">
             What this place offers
           </h2>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {allAmenities.slice(0, 10).map((amenity: string) => (
               <div key={amenity} className="flex items-center">
                 <GoSmiley className="text-xl mr-4" />

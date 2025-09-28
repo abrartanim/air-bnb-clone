@@ -42,8 +42,8 @@ const StickyNav: React.FC<StickyNavProps> = ({ isVisible }) => {
         isVisible ? "translate-y-0" : "-translate-y-full"
       }`}
     >
-      <nav className="container mx-auto px-8">
-        <div className="flex space-x-8">
+      <nav className="container mx-auto px-4 sm:px-8">
+        <div className="flex space-x-8 overflow-x-auto whitespace-nowrap justify-center">
           {navLinks.map((link) => (
             <a
               key={link.href}

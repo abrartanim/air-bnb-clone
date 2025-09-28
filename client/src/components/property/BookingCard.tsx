@@ -19,7 +19,7 @@ const BookingCard: React.FC<Props> = ({
   const total = nights > 0 ? property.price * nights : 0;
 
   return (
-    <div className="sticky top-24 p-6 border rounded-xl shadow-lg">
+    <div className="sticky top-24 p-6 border rounded-xl shadow-lg bg-white">
       <div className="flex items-baseline justify-between mb-4">
         <div>
           <span className="text-2xl font-bold">${property.price}</span>

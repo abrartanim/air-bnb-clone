@@ -8,36 +8,36 @@ interface Props {
 }
 
 const ImageGallery: React.FC<Props> = ({ property }) => (
-  <div className="grid grid-cols-4 grid-rows-2 gap-2 mb-8 h-[400px]">
+  <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-2 mb-8 md:h-[400px] h-[300px]">
     {/* Main Image */}
-    <div className="col-span-2 row-span-2">
+    <div className="col-span-1 md:col-span-2 md:row-span-2">
       <img
         src={property.picture_url}
         alt="Main view of the property"
-        className="w-full h-full object-cover rounded-l-lg"
+        className="w-full h-full object-cover rounded-lg md:rounded-l-lg"
       />
     </div>
 
-    {/* Placeholder for additional images. In a real app, you'd map over an array of image URLs. */}
+    {/* Hide additional images on smaller screens */}
     <img
       src={property.picture_url}
       alt="View 2"
-      className="w-full h-full object-cover"
+      className="w-full h-full object-cover hidden md:block"
     />
     <img
       src={property.picture_url}
       alt="View 3"
-      className="w-full h-full object-cover rounded-tr-lg"
+      className="w-full h-full object-cover rounded-tr-lg hidden md:block"
     />
     <img
       src={property.picture_url}
       alt="View 4"
-      className="w-full h-full object-cover"
+      className="w-full h-full object-cover hidden md:block"
     />
     <img
       src={property.picture_url}
       alt="View 5"
-      className="w-full h-full object-cover rounded-br-lg"
+      className="w-full h-full object-cover rounded-br-lg hidden md:block"
     />
   </div>
 );

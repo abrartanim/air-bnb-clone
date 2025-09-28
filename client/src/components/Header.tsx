@@ -5,7 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import SearchInput from "./Header/SearchInput";
 import logo from "../assets/logo.png";
-import { useMediaQuery } from "../hooks/useMediaQuery";
+import useMediaQuery from "../hooks/useMediaQuery";
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 

@@ -30,7 +30,7 @@ const HostInfo: React.FC<Props> = ({ property }) => {
     <div className="py-8 mt-8 border-t">
       <h2 className="text-2xl font-semibold mb-6">Meet your host</h2>
 
-      <div className="grid grid-cols-1 lg:grid-cols-6 gap-20">
+      <div className="grid grid-cols-1 md:grid-cols-6 gap-8 md:gap-20">
         {/* Left Column */}
         <div className="lg:col-span-2">
           {/* Host Card is now a standard div, not a link */}
