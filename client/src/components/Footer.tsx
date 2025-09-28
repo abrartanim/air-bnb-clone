@@ -113,7 +113,7 @@ const Footer = () => {
               href="#"
               className="font-semibold hover:underline cursor-pointer"
             >
-              $ USD
+              ৳ BDT
             </a>
             <div className="flex items-center space-x-4">
               <a
