@@ -45,8 +45,8 @@ const PropertyDetailsPage = () => {
 
   const [dateRange, setDateRange] = useState<Range[]>([
     {
-      startDate: undefined, // Start with no dates selected
-      endDate: undefined,
+      startDate: new Date(), // today
+      endDate: addDays(new Date(), 2), // 2 days from today
       key: "selection",
     },
   ]);
@@ -72,7 +72,6 @@ const PropertyDetailsPage = () => {
   }, [id]);
 
   useEffect(() => {
-    // ... (Scroll handling logic remains the same)
     const handleScroll = () => {
       if (infoSectionRef.current) {
         const topPosition = infoSectionRef.current.getBoundingClientRect().top;
