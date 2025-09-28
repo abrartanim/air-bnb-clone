@@ -42,13 +42,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </span>
         )}
         <button className="absolute top-3 right-3 bg-white p-2 rounded-full shadow-md hover:text-red-500 transition-colors">
-          <FaRegHeart className="text-gray-700 text-lg" />
+          <FaRegHeart className="text-gray-700 text-md" />
+          <a href="#"></a>
         </button>
       </div>
       <div className="p-4">
-        <h3 className="text-md font-semibold text-gray-800">
+        <h4 className="text-sm font-semibold text-gray-800">
           {type} in {location}
-        </h3>
+        </h4>
         <p className="text-gray-600 mt-1 text-sm">
           ${price} for {nights} nights <span className="mx-1">•</span>{" "}
           <FaStar className="inline text-yellow-500 mr-1" />

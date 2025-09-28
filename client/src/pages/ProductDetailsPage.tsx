@@ -14,29 +14,34 @@ import PropertyReviews from "../components/property/PropertyReviews";
 import PropertyMap from "../components/property/PropertyMap";
 import HostInfo from "../components/property/HostInfo";
 
-
-
 // Import the full Property type definition
 import type { Property } from "../components/property/types";
 import { propertyTypeMap } from "../components/property/types";
 
 // The dynamicSanitize function remains the same
-const dynamicSanitize = (data: Property, typeMap: typeof propertyTypeMap): Property => {
-  const sanitizedData = { ...data };
-  // ... (no changes to this function's logic)
+// src/pages/PropertyDetailsPage.tsx
+
+const dynamicSanitize = (
+  data: Property,
+  typeMap: typeof propertyTypeMap
+): Property => {
+  // 1. Cast the object to allow string indexing
+  const sanitizedData: Record<string, any> = { ...data };
+
   for (const key in sanitizedData) {
     if (sanitizedData[key] === null && key in typeMap) {
       const expectedType = typeMap[key];
-      if (expectedType === 'number') {
+      if (expectedType === "number") {
         sanitizedData[key] = 0;
-      } else if (expectedType === 'string') {
-        sanitizedData[key] = 'Not available';
+      } else if (expectedType === "string") {
+        sanitizedData[key] = "Not available";
       }
     }
   }
-  return sanitizedData;
-};
 
+  // 2. Cast it back to the original type before returning
+  return sanitizedData as Property;
+};
 
 const PropertyDetailsPage = () => {
   // 1. Get the 'id' from the URL
@@ -59,8 +64,6 @@ const PropertyDetailsPage = () => {
         // setProperty(response.data);
         const sanitizedData = dynamicSanitize(response.data, propertyTypeMap);
         setProperty(sanitizedData);
-
-
       } catch (err) {
         setError("Failed to load property details. Please try again later.");
         console.error("Error fetching property details:", err);

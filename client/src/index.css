@@ -1,1 +1,14 @@
 @import "tailwindcss";
+
+:root {
+  /* Define a CSS variable for easy access throughout your components */
+  --font-primary: "Figtree", sans-serif;
+}
+
+/* Apply the font to the entire body of the page */
+body {
+  margin: 0;
+  font-family: var(--font-primary); /* Use the new font variable */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
