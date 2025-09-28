@@ -10,10 +10,11 @@ function App() {
     <Router>
       <div className="font-sans">
         <Header />
-        {/* <Routes>
+        <Routes>
           <Route path="/" element={<HomePage />} />
-        </Routes> */}
-        <PropertyDetailsPage />
+           <Route path="/property/:id" element={<PropertyDetailsPage />} />
+        </Routes>
+        {/* <PropertyDetailsPage /> */}
       </div>
     </Router>
   );

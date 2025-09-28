@@ -81,3 +81,23 @@ export interface Property {
   calculated_host_listings_count_shared_rooms: number;
   reviews_per_month: number;
 }
+
+export const propertyTypeMap: Record<string, 'string' | 'number'> = {
+  // Numbers that can be null
+  review_scores_rating: 'number',
+  review_scores_accuracy: 'number',
+  review_scores_cleanliness: 'number',
+  review_scores_checkin: 'number',
+  review_scores_communication: 'number',
+  review_scores_location: 'number',
+  review_scores_value: 'number',
+  reviews_per_month: 'number',
+  beds: 'number',
+  bedrooms: 'number',
+  bathrooms: 'number',
+
+  // Strings that can be null
+  neighborhood_overview: 'string',
+  host_about: 'string',
+  description: 'string',
+};
