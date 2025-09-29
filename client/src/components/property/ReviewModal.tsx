@@ -118,7 +118,7 @@ const ReviewsModal: React.FC<ModalProps> = ({ onClose, property, reviews }) => {
       <div
         ref={modalRef}
         onClick={(e) => e.stopPropagation()}
-        className="bg-white rounded-xl shadow-2xl w-full max-w-4xl h-[90vh] flex flex-col"
+        className="bg-white md:rounded-xl shadow-2xl w-full h-full md:max-w-4xl md:h-[90vh] flex flex-col"
       >
         {/* Modal Header */}
         <div className="p-4 rounded-3xl sticky top-0 bg-white z-10">
@@ -131,9 +131,9 @@ const ReviewsModal: React.FC<ModalProps> = ({ onClose, property, reviews }) => {
         </div>
 
         {/* Modal Body */}
-        <div className="flex flex-1 overflow-hidden">
-          {/* --- CORRECTED Left Column (No Overflow) --- */}
-          <div className="w-1/3 p-6  flex flex-col justify-center mb-9">
+        <div className="flex-1 overflow-y-auto md:flex md:overflow-hidden">
+          {/* Left Column */}
+          <div className="p-6 border-b md:border-b-0 md:border-r md:w-1/3">
             <div>
               <h2 className="text-2xl font-bold flex items-center mb-4">
                 <IoStar className="mr-2" />
@@ -173,8 +173,8 @@ const ReviewsModal: React.FC<ModalProps> = ({ onClose, property, reviews }) => {
           </div>
 
           {/* Right Column (Scrollable) */}
-          <div className="w-2/3 p-6 flex-1 overflow-y-auto">
-            <div className="flex justify-between items-center mb-4  ">
+          <div className="p-6 md:w-2/3 md:flex-1 md:overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
               <h3 className="text-2xl font-semibold">
                 {property.number_of_reviews} reviews
               </h3>
