@@ -26,7 +26,11 @@ function HomePage() {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const response = await axios.get<Property[]>("/api/properties");
+        // Construct the full API URL using the environment variable
+        const apiUrl = `${import.meta.env.VITE_API_BASE_URL}/api/properties`;
+
+        // Use the new apiUrl variable in your axios call
+        const response = await axios.get<Property[]>(apiUrl);
         setProperties(response.data);
 
         requestAnimationFrame(() => {

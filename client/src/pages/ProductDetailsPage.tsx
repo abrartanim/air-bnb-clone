@@ -57,7 +57,13 @@ const PropertyDetailsPage = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get<Property>(`/api/properties/${id}`);
+        // Construct the full API URL for a single property
+        const apiUrl = `${
+          import.meta.env.VITE_API_BASE_URL
+        }/api/properties/${id}`;
+
+        // Use the new apiUrl variable in your axios call
+        const response = await axios.get<Property>(apiUrl);
         const sanitizedData = dynamicSanitize(response.data, propertyTypeMap);
         setProperty(sanitizedData);
       } catch (err) {
