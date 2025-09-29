@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useMemo, useRef } from "react";
 import { FaStar, FaMedal, FaCalendarAlt } from "react-icons/fa";
-import { MdOutlineDoorFront, MdOutlineKingBed } from "react-icons/md";
+import { MdOutlineDoorFront } from "react-icons/md";
 import { GoSmiley } from "react-icons/go";
 import { IoClose } from "react-icons/io5";
 import type { Property } from "./types";
