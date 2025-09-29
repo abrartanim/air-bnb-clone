@@ -57,9 +57,7 @@ const PropertyDetailsPage = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get<Property>(
-          `http://localhost:8080/api/properties/${id}`
-        );
+        const response = await axios.get<Property>(`/api/properties/${id}`);
         const sanitizedData = dynamicSanitize(response.data, propertyTypeMap);
         setProperty(sanitizedData);
       } catch (err) {
