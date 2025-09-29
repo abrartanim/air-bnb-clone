@@ -9,12 +9,16 @@ const SearchInput: React.FC<SearchInputProps> = ({ isScrolled }) => {
   if (isScrolled) {
     return (
       <div className="flex items-center space-x-2 rounded-full border border-gray-200 shadow-md py-2 px-4 transition-all duration-300 ease-in-out">
-        <button className="text-sm font-semibold px-4 py-1">Anywhere</button>
+        <button className="text-sm font-semibold px-4 py-1 cursor-pointer">
+          Anywhere
+        </button>
         <div className="h-6 w-px bg-gray-200" />
-        <button className="text-sm px-4 py-1">Anytime</button>
+        <button className="text-sm px-4 py-1 cursor-pointer">Anytime</button>
         <div className="h-6 w-px bg-gray-200" />
-        <button className="text-sm text-gray-600 px-4 py-1">Add guests</button>
-        <div className="ml-2 bg-rose-500 text-white p-2 rounded-full">
+        <button className="text-sm text-gray-600 px-4 py-1 cursor-pointer">
+          Add guests
+        </button>
+        <div className="ml-2 bg-rose-500 text-white p-2 rounded-full cursor-pointer">
           <FaSearch className="h-4 w-4" />
         </div>
       </div>

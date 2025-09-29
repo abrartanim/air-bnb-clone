@@ -12,11 +12,13 @@ const PropertyHeader: React.FC<Props> = ({ property }) => (
   <header className="mb-6 flex justify-between items-center">
     <h1 className="text-xl md:text-2xl font-semibold">{property.name}</h1>
     <div className="flex items-center space-x-2 md:space-x-4">
-      <button className="flex items-center underline font-semibold text-sm p-2 rounded-md hover:bg-gray-100">
-        <FaShare className="mr-0 md:mr-2" /> <span className="hidden md:inline">Share</span>
+      <button className="cursor-pointer flex items-center underline font-semibold text-sm p-2 rounded-md hover:bg-gray-100">
+        <FaShare className="mr-0 md:mr-2" />{" "}
+        <span className="hidden md:inline">Share</span>
       </button>
-      <button className="flex items-center underline font-semibold text-sm p-2 rounded-md hover:bg-gray-100">
-        <FaRegHeart className="mr-0 md:mr-2" /> <span className="hidden md:inline">Save</span>
+      <button className="cursor-pointer flex items-center underline font-semibold text-sm p-2 rounded-md hover:bg-gray-100">
+        <FaRegHeart className="mr-0 md:mr-2" />{" "}
+        <span className="hidden md:inline">Save</span>
       </button>
     </div>
   </header>

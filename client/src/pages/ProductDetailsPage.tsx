@@ -155,13 +155,13 @@ const PropertyDetailsPage = () => {
           <p className="font-bold">
             ${property.price} <span className="font-normal">night</span>
           </p>
-          <p className="text-sm text-gray-500 underline">
+          <p className="text-sm text-gray-500 underline cursor-pointer">
             {startDate && endDate
               ? `${format(startDate, "MMM d")} - ${format(endDate, "d")}`
               : "Select dates"}
           </p>
         </div>
-        <button className="bg-pink-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-pink-700 transition">
+        <button className="bg-pink-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-pink-700 transition cursor-pointer">
           Reserve
         </button>
       </div>

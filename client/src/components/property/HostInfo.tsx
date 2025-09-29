@@ -38,7 +38,7 @@ const HostInfo: React.FC<Props> = ({ property }) => {
             <div className="flex items-center justify-between">
               <div className="flex flex-col items-center text-center">
                 <img
-                  src={property.host_thumbnail_url}
+                  src={property.host_picture_url}
                   alt={property.host_name}
                   className="w-24 h-24 rounded-full mb-2"
                 />
@@ -97,7 +97,7 @@ const HostInfo: React.FC<Props> = ({ property }) => {
             </p>
           </div>
 
-          <button className="mt-12 w-full bg-gray-100 text-black font-semibold py-3 px-6 rounded-lg hover:bg-gray-200 transition-colors">
+          <button className="cursor-pointer mt-12 w-full bg-gray-100 text-black font-semibold py-3 px-6 rounded-lg hover:bg-gray-200 transition-colors">
             Message host
           </button>
 

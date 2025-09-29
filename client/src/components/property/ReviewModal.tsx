@@ -124,7 +124,7 @@ const ReviewsModal: React.FC<ModalProps> = ({ onClose, property, reviews }) => {
         <div className="p-4 rounded-3xl sticky top-0 bg-white z-10">
           <button
             onClick={handleClose}
-            className="p-2 rounded-full hover:bg-gray-100"
+            className="p-2 rounded-full hover:bg-gray-100 cursor-pointer"
           >
             <IoClose size={24} />
           </button>

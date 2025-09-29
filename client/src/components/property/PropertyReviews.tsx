@@ -230,7 +230,7 @@ const PropertyReviews: React.FC<Props> = ({ property }) => {
           <div className="mt-6">
             <button
               onClick={() => setIsModalOpen(true)}
-              className="border border-black font-semibold py-3 px-6 rounded-lg hover:bg-gray-100 transition-colors"
+              className="cursor-pointer border border-black font-semibold py-3 px-6 rounded-lg hover:bg-gray-100 transition-colors"
             >
               Show all {property.number_of_reviews} reviews
             </button>

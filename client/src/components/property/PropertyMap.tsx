@@ -58,7 +58,7 @@ const PropertyMap: React.FC<Props> = ({ property }) => {
       <div>
         <h3 className="font-semibold text-lg">{property.host_location}</h3>
         <p className="text-gray-600 mt-2">{property.neighborhood_overview}</p>
-        <button className="mt-4 font-semibold underline hover:text-black">
+        <button className="mt-4 font-semibold underline hover:text-black cursor-pointer">
           Show more &gt;
         </button>
       </div>
